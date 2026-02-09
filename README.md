@@ -1,39 +1,32 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# アプリ名　One Step Output 
+  日々の学びを定着させることを目的とした「思考型ブログ」
 
-## Getting Started
+ このアプリは、その日の出来事や気づいたことを簡潔に書き留めると同時に、生成AIが問いかけや深掘りを行います。
+ 一日の出来事の中でなぜそう感じたのか」「他にどのような見方ができるか」「次に何を意識すべきか」といった問い
+ や考えを整理し、ブログ記事を作成します。その後に、作成した記事から生成Aiのフィードバックを受け取り、自分の考えや疑問などを
+ を整理し、アウトプットの定着をサポートします。
 
-First, run the development server:
+# 使用技術
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+　- Next.js ver 16.0.10
+  - Typescript
+  - supabase
+  - zod
+  - tailwindcss
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+#  アプリ概要
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+　　自分が投稿したブログ記事に対してGemini Aiでブログ記事の内容に対するフィードバックを返し、アウトプットの定着をサポートします。
+　　また、自身のプロフィール情報を設定し、Home画面の一部を変更することができる仕組みを実装しています。
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+   機能一覧
+   - ユーザー登録、プロフィール編集、Home画面の画像変更、ログイン機能
+   - 投稿機能
+     - タイトル、画像、カテゴリー、記事内容
+   - 投稿内容の編集、削除
+   - Geminiを利用したフィードバック機能
+   検索機能
+   - ブログ記事タイトルから絞り込みの検索を可能
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-"# OSOP" 
-"# OSOPblog" 
-"# travel" 
+# 使用方法
+  
