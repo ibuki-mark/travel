@@ -1,0 +1,127 @@
+"use server"
+import { z } from "zod"
+import { ProfileType } from "@/types"
+import { ProfilesTSchema } from "@/schemas"
+import { createClient } from "@/app/utils/supabase/server"
+import { decode } from "base64-arraybuffer"
+import { v4 as uuidv4 } from "uuid"
+interface updateProfileProps extends z.infer<typeof ProfilesTSchema>{
+  profile: ProfileType
+  base64Image1?: string 
+  base64Image2?: string 
+}
+
+export const updateProfile = async (values: updateProfileProps) => {
+  try {
+    const supabase = await createClient()
+
+    let avatar_url = values.profile.avatar_url
+    let homescreen_url=values.profile.homescreen_url
+
+    if (values.base64Image1) {
+      const matches1 = values.base64Image1.match(/^data:(.+);base64,(.+)$/)
+
+      if (!matches1 || matches1.length !== 3) {
+        return { error: "無効な画像データです" }
+      }
+
+      const contentType = matches1[1] // 例: "image/png"
+      const base64Data = matches1[2]
+
+      // 拡張子を取得
+      const fileExt = contentType.split("/")[1] // 例: "png"
+
+      // ファイル名を生成
+      const fileName = `${uuidv4()}.${fileExt}`
+
+      const { error: storageError } = await supabase.storage
+        .from("profile")
+        .upload(`${values.profile.id}/${fileName}`, decode(base64Data), {
+          contentType,
+        })
+
+      if (storageError) {
+        return { error: storageError.message }
+      }
+
+      if (avatar_url) {
+        const fileName = avatar_url.split("/").slice(-1)[0]
+
+        // 古い画像を削除
+        await supabase.storage
+          .from("profile")
+          .remove([`${values.profile.id}/${fileName}`])
+      }
+
+      // 画像のURLを取得
+      const { data: urlData } = await supabase.storage
+        .from("profile")
+        .getPublicUrl(`${values.profile.id}/${fileName}`)
+
+      avatar_url = urlData.publicUrl
+    }
+
+    if(values.base64Image2){
+     const matches = values.base64Image2.match(/^data:(.+);base64,(.+)$/)
+
+      if (!matches || matches.length !== 3) {
+        return { error: "無効な画像データです" }
+      }
+
+      const contentType = matches[1] // 例: "image/png"
+      const base64Data = matches[2]
+
+      // 拡張子を取得
+      const fileExt = contentType.split("/")[1] // 例: "png"
+
+      // ファイル名を生成
+      const fileName = `${uuidv4()}.${fileExt}`
+
+      const { error: storageError } = await supabase.storage
+        .from("profile")
+        .upload(`${values.profile.id}/${fileName}`, decode(base64Data), {
+          contentType,
+        })
+
+      if (storageError) {
+        return { error: storageError.message }
+      }
+
+      if (homescreen_url) {
+        const fileName = homescreen_url.split("/").slice(-1)[0]
+
+        // 古い画像を削除
+        await supabase.storage
+          .from("profile")
+          .remove([`${values.profile.id}/${fileName}`])
+      }
+
+      // 画像のURLを取得
+      const { data: urlData } = await supabase.storage
+        .from("profile")
+        .getPublicUrl(`${values.profile.id}/${fileName}`)
+
+      homescreen_url = urlData.publicUrl
+    }
+    
+
+    // プロフィールアップデート
+    const { error: updateError } = await supabase
+      .from("profiles")
+      .update({
+        name: values.name,
+        introduce: values.introduce,
+        avatar_url,
+        homescreen_url,
+      })
+      .eq("id", values.profile.id)
+
+    // エラーチェック
+    if (updateError) {
+      return { error: updateError.message }
+    }
+  } catch (err) {
+    console.error(err)
+    return { error: "エラーが発生しました" }
+  }
+}
