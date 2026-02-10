@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { startTransition, useState } from "react";
+import React, { startTransition, useState, useTransition } from "react";
 import defaultImage from "../../../public/image/default-image.webp";
 import { useRouter } from "next/navigation";
 import { UpdateShema } from "@/schemas";
@@ -29,7 +29,7 @@ const Updatepage = ({ blogData }: UpdateBlogType) => {
     content: blogData.content || "",
   });
   const [updateimageUrl, setUpdateimageUrl] = useState<string>();
-
+  const [isPending,startTransition]=useTransition()
 
   const handleSubmit=async(e: React.FormEvent<HTMLFormElement>)=>{
    e.preventDefault()
@@ -89,7 +89,7 @@ const Updatepage = ({ blogData }: UpdateBlogType) => {
 
   return (
     <div>
-      <div className="w-full px-10 bg-slate-50 my-8 rounded-2xl pb-8 ">
+      <div className="w-full px-10 max-[400px]:px-2 bg-slate-50 my-8 rounded-2xl pb-8 ">
         <div className="flex flex-col py-5">
           <div className="py-7  mb-3 text-center">
             <h1 className="font-bold text-2xl ">ブログ編集</h1>
@@ -173,9 +173,10 @@ const Updatepage = ({ blogData }: UpdateBlogType) => {
               <button
                 type="submit"
                 className="bg-black w-full rounded-lg py-2 text-white font-bold 
-               cursor-pointer hover:opacity-75 hover:text-lg duration-300 "
+               cursor-pointer hover:opacity-75 hover:text-lg duration-300 flex items-center justify-center gap-5"
               >
-                送信
+                 <div className="text-xl">{isPending ? "投稿中...." : "投稿"}</div>
+                   {isPending&&<div className="w-8 h-8 text-white border-b-3 border-white  rounded-2xl animate-spin"></div>}
               </button>
             </div>
           </form>

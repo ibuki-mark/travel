@@ -44,7 +44,7 @@ const page = async(context:Props) => {
     const isMyBlog=user?.id===blogData.user_id
 
   return (
-    <div>
+    <div className="w-[95%] mx-auto mb-50">
       <Suspense fallback={<Loading />}>
         <Readsingle blog={blogData} isMyBlog={isMyBlog} user={user}/>
       </Suspense>

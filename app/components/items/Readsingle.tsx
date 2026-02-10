@@ -9,6 +9,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { UpBlogType } from "@/types";
 import { deleteBlog, questionBlog } from "@/actions/blog";
 import toast from "react-hot-toast";
+import { useTransition } from "react";
+
 
 interface BlogDataProps {
   blog: UpBlogType & {
@@ -25,6 +27,7 @@ const Readsingle = (props: BlogDataProps) => {
   const router = useRouter();
   const [error, setError] = useState("");
   const [question, setQuestion] = useState<string>("");
+  const [isPending, startTransition] = useTransition();
 
   const handleUpdatepage = () => {
     router.push(`/item/update/${blog.id}`);
@@ -92,7 +95,7 @@ const Readsingle = (props: BlogDataProps) => {
 
   return (
     <div>
-      <div className="w-full px-10 bg-slate-50 my-8 rounded-xl pb-8">
+      <div className="w-full px-10 max-[400px]:px-5 bg-slate-50 my-8 rounded-xl pb-8 ">
         <div className="flex flex-col">
           <div className="flex items-center justify-between pt-10">
             <div className="text-blue-700 text-xl bg-blue-100 px-3 py-1 rounded-lg">
@@ -150,7 +153,7 @@ const Readsingle = (props: BlogDataProps) => {
             </div>
           </div>
 
-          <div className="h-90">
+          <div className="md:h-90">
             <Image
               src={blog.image_url || cafe}
               width={600}
@@ -160,11 +163,11 @@ const Readsingle = (props: BlogDataProps) => {
             />
           </div>
 
-          <div className="mt-15 leading-9">{blog.content}</div>
+          <div className="mt-15 md:leading-9 max-[450px]:leading-5">{blog.content}</div>
 
           <div className="mt-8 ">
             <div className="font-bold py-2">answer</div>
-            <div className="bg-slate-200 w-full px-6 rounded-xl  duration-300 py-6 leading-8 ">
+            <div className="bg-slate-200 w-full px-6 rounded-xl  duration-300 py-6 leading-8 max-[450px]:leading-6 ">
               <div className="font-mono">
                 {blog.answer.map((option, index) => {
                   return (
@@ -198,7 +201,16 @@ const Readsingle = (props: BlogDataProps) => {
               type="submit"
               className="cursor-pointer bg-black text-white px-2 py-2 rounded-3xl w-1/5 font-bold text-md hover:opacity-75 duration-200 "
             >
-              送信
+              <div>{isPending?
+              (
+                <div className="flex justify-center">
+                  <span className="w-6 h-6 text-white border-b-3 border-white  rounded-2xl animate-spin block"></span>
+                </div>
+              ):(
+                <div>
+                  送信
+                </div>
+              )}</div>
             </button>
           </div>
         </form>

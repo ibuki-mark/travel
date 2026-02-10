@@ -7,7 +7,9 @@ import { startTransition } from "react";
 import { newBlog } from "@/actions/blog";
 import toast from "react-hot-toast";
 import FormError from "../auth/FormError";
-import defaultImage from "../../../public/image/default-image.webp"
+import defaultImage from "../../../public/image/default-image.webp";
+import { useTransition } from "react";
+
 interface BlogNewProps {
   userId: string;
 }
@@ -21,8 +23,8 @@ interface FormType {
   title: string;
   content: string;
   catogory: string;
-  bookmark:boolean;
-  question:string;
+  bookmark: boolean;
+  question: string;
   answer: AnswerItem[];
 }
 
@@ -34,10 +36,11 @@ const Create = ({ userId }: BlogNewProps) => {
     title: "",
     content: "",
     catogory: "",
-    bookmark:false,
-    question:"",
+    bookmark: false,
+    question: "",
     answer: [],
   });
+  const [isPending, startTransition] = useTransition();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -61,7 +64,7 @@ const Create = ({ userId }: BlogNewProps) => {
         }
         toast.success("ブログを投稿しました");
         router.push("/");
-       
+        
       } catch (err) {
         console.log(error);
         setError("エラーが発生しました");
@@ -104,7 +107,7 @@ const Create = ({ userId }: BlogNewProps) => {
               </div>
 
               <div className="text-sm text-center ">
-                <label className="cursor-pointer border border-slate-300 px-18 py-1 rounded-lg shadow w-full">
+                <label className="cursor-pointer border border-slate-300 sm:px-18 px-10 py-1 rounded-lg shadow w-full">
                   <span>画像選択</span>
                   <input
                     type="file"
@@ -137,7 +140,7 @@ const Create = ({ userId }: BlogNewProps) => {
                 <input
                   type="text"
                   className="border border-slate-400 w-full rounded-md py-1 px-2"
-                  placeholder="カテゴリー"
+                  placeholder="自由にカテゴリー名を入力してください"
                   value={form.catogory}
                   onChange={(e) =>
                     setForm({ ...form, catogory: e.target.value })
@@ -170,7 +173,11 @@ const Create = ({ userId }: BlogNewProps) => {
                 className="bg-black w-full rounded-lg py-2 text-white font-bold 
                cursor-pointer hover:opacity-75 hover:text-lg duration-300 "
               >
-                送信
+                <div className="flex justify-center items-center gap-4">
+                   <div className="text-xl">{isPending ? "投稿中...." : "投稿"}</div>
+                   {isPending&&<div className="w-8 h-8 text-white border-b-3 border-white  rounded-2xl animate-spin"></div>}
+                </div>
+                
               </button>
             </div>
           </form>
