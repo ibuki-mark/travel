@@ -27,7 +27,13 @@
    - Geminiを利用したフィードバック機能
    検索機能
    - ブログ記事タイトルから絞り込みの検索を可能
+#  使用方法
 
-アプリリンク
-https://travel-9pie.vercel.app/
   
+
+https://github.com/user-attachments/assets/ccf0856b-2860-4f2e-85b9-446bfbbe2e8b
+
+# アプリURL
+  https://travel-ynes.vercel.app/
+
+
