@@ -27,13 +27,13 @@
    - Geminiを利用したフィードバック機能
    検索機能
    - ブログ記事タイトルから絞り込みの検索を可能
-#  使用方法
+#  デモ映像
 
-  
 
-https://github.com/user-attachments/assets/ccf0856b-2860-4f2e-85b9-446bfbbe2e8b
+https://github.com/user-attachments/assets/64dd4c69-600d-4b67-8b96-d1bad5faba70
 
 # アプリURL
-  https://travel-ynes.vercel.app/
+  https://travel-ynes.vercel.app
+
 
 
